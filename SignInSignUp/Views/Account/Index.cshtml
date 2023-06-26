@@ -1,0 +1,9 @@
+﻿@model string
+
+<h2>Hello @Model, You have succefully logged in</h2>
+
+@using (Html.BeginForm("Logout", "Account", FormMethod.Get))
+{
+    <button type="submit" class="btn btn-primary">Logout</button>
+}
+

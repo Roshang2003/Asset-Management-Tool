@@ -1,0 +1,33 @@
+﻿<head>
+    <link rel="stylesheet" href="~/Content/login.css" />
+</head>
+@model SignInSignUp.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="login-card">
+        <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control mb-3", placeholder = "Email", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control mb-3", placeholder = "Password" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+        
+        <button class="btn btn-primary btn-lg btn-block mb-3" type="submit">Login</button>
+        
+        <p>Don't have an account? @Html.ActionLink("SignUp", "Signup")</p>
+    </div>
+}

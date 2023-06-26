@@ -1,0 +1,45 @@
+﻿<style>
+   body{
+       
+   }
+</style>
+
+<head>
+    <link rel="stylesheet" href="~/Content/login.css" />
+</head>
+@model SignInSignUp.Models.SignupViewModel
+
+@using (Html.BeginForm("Signup", "Account", FormMethod.Post, new { @class = "form-signup" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="login-card">
+
+        <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control mb-3", placeholder = "Name", autofocus = "autofocus" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.TextBoxFor(model => model.Age, new { @class = "form-control mb-3", placeholder = "Age" })
+            @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control mb-3", placeholder = "Email" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "sr-only mb-2" })
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control mb-4", placeholder = "Password" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+    </div>
+}
