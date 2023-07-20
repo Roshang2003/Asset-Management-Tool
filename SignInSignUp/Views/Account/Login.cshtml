@@ -1,33 +1,68 @@
-﻿<head>
-    <link rel="stylesheet" href="~/Content/login.css" />
-</head>
-@model SignInSignUp.Models.LoginViewModel
-
+﻿@model SignInSignUp.Models.LoginViewModel
+@{
+    Layout = null;
+}
 @{
     ViewBag.Title = "Login";
 }
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
-{
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<head>
+    <link rel="stylesheet" href="~/Content/login.css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-    <div class="login-card">
-        <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+    </style>
+</head>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "sr-only mb-2" })
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control mb-3", placeholder = "Email", autofocus = "autofocus" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+<div style="display: flex; height: 100%; width:100%;">
+    <div style="flex: 1; background-color: #6DA9E4; width: 100%; height: 749px;"></div>
+    
+    <div style="flex: 1;">
+        <div class="container row mt-2" style="margin:2px" >
+            <div class="col col-lg-8 col-md-8 col-sm-6">
+                <a href="">
+                    <img src="https://www.preventine.org/Content/landingpage-assets/img/preventinelogo.png" />
+                </a>
+            </div>
+            <div class="col col-lg-4 col-md-4 col-sm-6">
+                <a class="btn btn-primary login_btn_loginpage" href="" role="button">Login</a>
+                
+                <a class="btn btn-outline-primary signup_btn_loginpage" href="Signup">Signup</a>
+            </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "sr-only mb-2" })
-            @Html.PasswordFor(model => model.Password, new { @class = "form-control mb-3", placeholder = "Password" })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        <div style="display: flex; justify-content: center; align-items: center; height: 80%;">
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="login-card">
+                    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "sr-only mb-2" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control mb-3", placeholder = "Email", autofocus = "autofocus" })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "sr-only mb-2" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control mb-3", placeholder = "Password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <button class="btn btn-primary btn-lg btn-block mb-3 mt-2" type="submit">Login</button>
+
+                    <p>Don't have an account? @Html.ActionLink("SignUp", "Signup")</p>
+                </div>
+            }
         </div>
-        
-        <button class="btn btn-primary btn-lg btn-block mb-3" type="submit">Login</button>
-        
-        <p>Don't have an account? @Html.ActionLink("SignUp", "Signup")</p>
     </div>
-}
+</div>
+

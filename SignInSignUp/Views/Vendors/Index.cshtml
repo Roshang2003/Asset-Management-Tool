@@ -1,0 +1,123 @@
+﻿@model List<SignInSignUp.Models.VendorTable>
+@{
+    ViewBag.Title = "Vendors";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+
+        .main_container {
+            margin: 2px 0px 2px 15px;
+            text-align: center;
+            /*background-color: ;*/
+        }
+
+        .add_new_vendor {
+            margin-left: 80%;
+            margin-bottom: 20px;
+        }
+        .custom-table {
+            border: 2px solid #EDE4FF;
+        }
+
+        .custom-table thead th {
+            background-color: #F6F1FF;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F8F3FF ">
+    <div class="main_container">
+        <h2 class="mb-4">Vendors</h2>
+        <div>
+            <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Create", "Vendors")" role="button">Add New Vendor</a>
+        </div>
+        <table class="table custom-table table-bordered border-4">
+            <thead class="thead border-4">
+                <tr>
+                    <th scope="col" class="border">S.No</th>
+                    <th scope="col" class="border">Vendor Name</th>
+                    <th scope="col" class="border">Contact Person</th>
+                    <th scope="col" class="border">Email</th>
+                    <th scope="col" class="border">Contact No</th>
+                    <th scope="col" class="border">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (Model[i].email.Count()==0)
+                    {
+                        Model[i].email = "N/A";
+                    }
+                    <tr>
+                        <th scope="row" class="border">@(i + 1)</th>
+                        <td class="border">@Model[i].vendorName</td>
+                        <td class="border">@Model[i].name</td>
+                        <td class="border">@Model[i].email</td>
+                        <td class="border">@Model[i].phone</td>
+                        <td class="border">
+                            <a href="@Url.Action("Details", "Vendors", new { id = Model[i].vendorID })" style="color: #A076F9; "> <i class="fa-regular fa-eye"></i></a> 
+                            <a href="@Url.Action("Edit", "Vendors", new { id = Model[i].vendorID })" style="color: #A076F9; "> <i class="fa-regular fa-pen-to-square"></i></a> 
+                            <a href="#" class="delete-btn" data-vendorid="@Model[i].vendorID" data-toggle="modal" data-target="#myModal" style="color: #A076F9; "> <i class="fa-sharp fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- Add your content here -->
+                    <p>Are you sure you want to delete the following vendor?</p>
+
+                    <table>
+                        <tr>
+                            <th>Vendor ID:</th>
+                            <td id="vendorId"></td>
+                        </tr>
+                        <tr>
+                            <th>Vendor Name:</th>
+                            <td id="vendorName"> </td>
+                        </tr>
+                        <!-- Include other vendor details as needed -->
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    @using (Html.BeginForm("DeleteConfirmed", "Vendors", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", null, new { id = "deleteVendorId" })
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    }
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').click(function () {
+                var vendorId = $(this).data('vendorid');
+                $('#deleteVendorId').val(vendorId);
+                $('#vendorId').text(vendorId);
+                $('#vendorName').text($(this).closest('tr').find('td:nth-child(2)').text());
+                //$('#myModal').modal('show');
+            });
+        });
+    </script>
+
+
+</body>
+
+
+
+</html>

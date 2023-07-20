@@ -7,6 +7,8 @@ using SignInSignUp.Models;
 using System.Collections.Generic;
 using System.Web.Helpers;
 using System.Web.Security;
+using System;
+using System.Xml.Linq;
 
 public class AccountController : Controller
 {
@@ -29,11 +31,15 @@ public class AccountController : Controller
             // Validate user credentials
             if (ValidateUser(model.Email, model.Password))
             {
+
                 // Authentication successful
+                
                 // Redirect to the home page or desired destination
+
                 FormsAuthentication.SetAuthCookie(model.Email, false);
-                string name = GetUserNameByEmail(model.Email); // Retrieve the name from the database using the email
-                return RedirectToAction("Index", "Account", new { name=name });
+
+                return RedirectToAction("Index", "Account");
+                
                 //return RedirectToAction("Index", "Account");
             }
             else
@@ -45,11 +51,6 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [HttpGet]
-    public ActionResult Index(string name)
-    {
-        return View((object)name);
-    }
 
     //public ActionResult Index()
     //{
@@ -60,30 +61,6 @@ public class AccountController : Controller
     {
         FormsAuthentication.SignOut();
         return RedirectToAction("Login");
-    }
-
-    private string GetUserNameByEmail(string email)
-    {
-        //string connectionString = connectionString; // Replace with your connection string
-
-        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        {
-            string query = "SELECT Name FROM trial1login WHERE Email = @Email";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Email", email);
-
-                connection.Open();
-                object result = command.ExecuteScalar();
-                connection.Close();
-
-                if (result != null)
-                {
-                    return result.ToString();
-                }
-            }
-        }
-        return string.Empty;
     }
 
     // GET: /Account/Signup
@@ -113,7 +90,7 @@ public class AccountController : Controller
             if (CreateUser(newUser))
             {
                 // Redirect to the login page or desired destination
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
             }
             else
             {
@@ -123,6 +100,51 @@ public class AccountController : Controller
 
         return View(model);
     }
+
+    [HttpGet]
+    public ActionResult Index()
+    {
+        //int vendorCount = (int)ViewBag.VendorCount;
+        string name = GetUserNameByEmail(User.Identity.Name); // Retrieve the name from the database using the email
+
+        Session["UserName"] = name;
+
+        int loggedInUserID = GetUserIDByEmail(User.Identity.Name);
+        Session["UserID"] = loggedInUserID;
+
+        DashboardDetails dashboardDetails = new DashboardDetails()
+        {
+            Vendors = CountVendors(loggedInUserID),
+            Products = CountProducts(loggedInUserID),
+        };
+
+        return View(dashboardDetails);
+    }
+
+    private string GetUserNameByEmail(string email)
+    {
+        //string connectionString = connectionString; // Replace with your connection string
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            string query = "SELECT Name FROM trial1login WHERE Email = @Email";
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Email", email);
+
+                connection.Open();
+                object result = command.ExecuteScalar();
+                connection.Close();
+
+                if (result != null)
+                {
+                    return result.ToString();
+                }
+            }
+        }
+        return string.Empty;
+    }
+
 
     // Helper method to validate user credentials
     private bool ValidateUser(string email, string password)
@@ -138,9 +160,15 @@ public class AccountController : Controller
                 command.Parameters.AddWithValue("@Password", password);
 
                 var result = (long)command.ExecuteScalar();
-                return result > 0;
+
+                if(result > 0)
+                {
+                    return true;
+                }
+                
             }
         }
+        return false;
     }
 
     // Helper method to create a new user
@@ -151,6 +179,7 @@ public class AccountController : Controller
             connection.Open();
 
             var commandText = "INSERT INTO trial1login (Name, Age, Email, Password) VALUES (@Name, @Age, @Email, @Password)";
+            
             using (var command = new MySqlCommand(commandText, connection))
             {
                 command.Parameters.AddWithValue("@Name", user.Name);
@@ -160,6 +189,77 @@ public class AccountController : Controller
                 return command.ExecuteNonQuery() > 0;
             }
         }
+    }
+
+
+    public int GetUserIDByEmail(string email)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT ID FROM trial1login WHERE Email = @Email";
+                command.Parameters.AddWithValue("@Email", email);
+
+                var result = command.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+
+        // User with the specified email not found
+        return -1; // Or any other default value or error handling mechanism
+    }
+
+    int CountVendors(int loggedInUserID)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT Count(*) FROM vendor WHERE User_ID = @User_ID and IsActive=@IsActive";
+                command.CommandText = "SELECT Count(*) FROM vendor WHERE User_ID = @User_ID and IsActive=@IsActive";
+                command.Parameters.AddWithValue("@User_ID", loggedInUserID);
+                command.Parameters.AddWithValue("@IsActive", true);
+                var result = command.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+        return 0;
+    }
+
+    int CountProducts(int loggedInUserID)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT Count(*) FROM product WHERE USER_ID = @USER_ID and IsActive=@IsActive";
+                command.Parameters.AddWithValue("@USER_ID", loggedInUserID);
+                command.Parameters.AddWithValue("@IsActive", true);
+
+                var result = command.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+        return 0;
     }
 
 }

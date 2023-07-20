@@ -1,0 +1,102 @@
+﻿@model SignInSignUp.Models.VendorEdit
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/AddVendor.css" />
+</head>
+<body style="background-color: #F8F3FF " ">
+
+    @using (Html.BeginForm("Edit", "Vendors", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="main_container">
+            <div class="container">
+                <div class="card">
+                    <h2>Edit Vendor Details</h2>
+
+                    @Html.HiddenFor(model => model.vendorId)
+
+                    <div class="form-group-1">
+                        @Html.LabelFor(model => model.vendorName, new { @class = "label" })
+                        @Html.TextBoxFor(model => model.vendorName, new { @class = "input-field", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.vendorName)
+                    </div>
+
+                    <div class="form-group-1">
+                        @Html.LabelFor(model => model.name, new { @class = "label" })
+                        @Html.TextBoxFor(model => model.name, new { @class = "input-field", id = "name", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.name)
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.phone, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.phone, new { @class = "input-field", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.phone)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.email, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.email, new { @class = "input-field" })
+                            @Html.ValidationMessageFor(model => model.email)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.gstin, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.gstin, new { @class = "input-field" })
+                            @Html.ValidationMessageFor(model => model.gstin)
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.designation, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.designation, new { @class = "input-field" })
+                            @Html.ValidationMessageFor(model => model.designation)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.country, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.country, new { @class = "input-field", @required = "required" })
+                            @Html.ValidationMessageFor(model => model.country)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.state, new { @class = "label", @required = "required" })
+                            <select class="select-field" id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="state1" @(Model.state == "state1" ? "selected" : "")>State 1</option>
+                                <option value="state2" @(Model.state == "state2" ? "selected" : "")>State 2</option>
+                                <option value="state3" @(Model.state == "state3" ? "selected" : "")>State 3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.city, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.city, new { @class = "input-field", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.pincode, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.pincode, new { @class = "input-field" })
+                        </div>
+                    </div>
+                    <div class="form-group-1">
+                        @Html.LabelFor(model => model.address, new { @class = "label" })
+                        @Html.TextBoxFor(model => model.address, new { @class = "input-field" })
+                    </div>
+                    <button class="btn btn-lg btn-primary" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>

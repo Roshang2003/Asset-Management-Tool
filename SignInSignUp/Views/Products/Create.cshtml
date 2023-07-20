@@ -1,0 +1,72 @@
+﻿@model SignInSignUp.Models.ProductCreate
+@{
+    ViewBag.Title = "Create";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/AddVendor.css" />
+</head>
+<body style="background-color: #F8F3FF">
+    @using (Html.BeginForm("Create", "Products", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="main_container" style="margin-top:5em">
+            <div class="container">
+                <div class="card">
+                    <h2>Add New Product : @Session["UserID"]</h2>
+
+                    <div class="form-group-1">
+                        @Html.LabelFor(model => model.ProductName, new { @class = "label" })
+                        @Html.TextBoxFor(model => model.ProductName, new { @class = "input-field", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.ProductName)
+                    </div>
+
+                    <div class="form-group-1">
+                        @Html.LabelFor(model => model.Manufacturer, new { @class = "label" })
+                        @Html.TextBoxFor(model => model.Manufacturer, new { @class = "input-field", id = "name", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Manufacturer)
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group-1">
+                            @Html.LabelFor(model => model.Description, new { @class = "label" })
+                            @Html.TextBoxFor(model => model.Description, new { @class = "input-field", @required = "required", id = "phone" })
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductCategory, new { @class = "label", @required = "required" })
+                            <select class="select-field" name="ProductCategory" required>
+                                <option value="">Product Category</option>
+                                <option value="Cloud">Cloud Infrastructure</option>
+                                <option value="Networking">Networking</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Software">Software</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductType, new { @class = "label", @required = "required" })
+                            <select class="select-field" id="ProductType" name="ProductType" required>
+                                <option value="">Product Type</option>
+                                <option value="Application Software">Application Software</option>
+                                <option value="Database">Database</option>
+                                <option value="Operating System">Operating System</option>
+                                <option value="Web Server">Web Server</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+

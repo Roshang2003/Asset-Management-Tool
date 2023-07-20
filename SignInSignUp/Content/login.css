@@ -2,7 +2,7 @@
     background-color:white;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     height: 100vh;
     background-color: #f1f1f1;
 }
@@ -15,16 +15,16 @@
     border-radius: 5px;
 }
 
-    .login-card input[type="text"],
-    .login-card input[type="password"],
-    .login-card input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
+.login-card input[type="text"],
+.login-card input[type="password"],
+.login-card input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 }
 .login-card input[type="submit"] {
     background-color: #4CAF50;
