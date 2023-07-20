@@ -1,9 +1,175 @@
-﻿@model string
+﻿@model SignInSignUp.Models.DashboardDetails
+<!DOCTYPE html>
+<html>
+<head>
+    @*<link href="~/Content/index.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.min.css">*@
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    @*<link rel="stylesheet" href="~/dist/css/skins/_all-skins.min.css">
+        <!-- Morris chart -->
+        @*<link rel="stylesheet" href="~/bower_components/morris.js/morris.css">*@
+    <!-- jvectormap -->
+    <!--<link rel="stylesheet" href="~/bower_components/jvectormap/jquery-jvectormap.css">-->
+    <!-- Date Picker -->
+    @*<link rel="stylesheet" href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">*@
+    <!-- Daterange picker -->
+    @*<link rel="stylesheet" href="~/bower_components/bootstrap-daterangepicker/daterangepicker.css">*@
+    <!-- bootstrap wysihtml5 - text editor -->
+    @*<link rel="stylesheet" href="~/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">*@
 
-<h2>Hello @Model, You have succefully logged in</h2>
 
-@using (Html.BeginForm("Logout", "Account", FormMethod.Get))
-{
-    <button type="submit" class="btn btn-primary">Logout</button>
-}
+    <style>
+        .dashboard {
+            margin: 2px 0px 2px 15px;
+            text-align: center;
+        }
 
+        .below_dashboard {
+            background-color: #FFA41B;
+            height: 8rem;
+            padding: 3rem 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h2>Dashboard</h2>
+        <div class="below_dashboard mb-5">
+            <p>Your default location is not updated, <a>click here</a> to choose your location.</p>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@Model.Assets</h3>
+                        
+
+                        <p>Assets</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-computer"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>@Model.AssignedAsset</h3>
+
+                        <p>Assigned Assets</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>0</h3>
+
+                        <p>Unassigned Assets</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@Model.Vendors</h3>
+
+                        <p>Vendors</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>@Model.Locations</h3>
+
+                        <p>Locations</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>@Model.Products</h3>
+
+                        <p>Products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-cart-outline"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>@Model.Employees</h3>
+
+                        <p>Employees</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>@Model.TotalAssetCost</h3>
+
+                        <p>Total Asset Cost</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

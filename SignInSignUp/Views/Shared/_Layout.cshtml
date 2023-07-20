@@ -1,40 +1,235 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <title>Asset Management Web Application</title>
+    <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    
+    <style>
+        /* Custom styles for the sidebar navbar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 100px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+            background-color: #0C134F; /* Added background color */
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: 100%;
+            padding-top: 0.5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: white; /* Changed text color to white */
+        }
+
+        .sidebar .navbar-text {
+            color: white; /* Color for the "name" and "admin" text */
+            padding: 0px;
+            text-align: center;
+        }
+
+        .sidebar .name {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .sidebar {
+            margin-top: auto;
+            padding: 5px;
+        }
+
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        .logout_button {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Active state for "Assets" link */
+        .sidebar .nav-item.dropdown.active > a.nav-link {
+            background-color: #f8f9fa;
+            color: #0C134F;
+            font-weight: bold;
+        }
+
+        /* Active state for dropdown items */
+        .sidebar .nav-item.dropdown .dropdown-item.active {
+            color: white;
+            background-color: #068FFF;
+        }
+
+        /* Hover state for dropdown items */
+        .sidebar .nav-item.dropdown .dropdown-item:hover {
+            color: white;
+            background-color: #068FFF;
+        }
+
+        .my-element {
+            margin-left: 16.39%; /* Default margin for larger screens */
+        }
+        /* ... (existing styles) ... */
+        @*@media (max-width: 768px) {
+            .my-element {
+                margin-left: 10px; /* Specify the desired margin for smaller screens */
+            }
+        }*@
+    </style>
+
+
 </head>
 <body>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+
+    <div class="container-fluid row">
+        <nav class="col-md-2 d-none d-md-block sidebar">
+            <div class="sidebar-sticky" id="sidebar">
+                <div class="navbar-text name">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <p>@Session["UserName"]</p>
+                    }
+                </div>
+                <div class="navbar-text">
+                    Admin
+                </div>
+                <hr style="color: #FBEEAC " />
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2 @((ViewContext.RouteData.Values["controller"].ToString() == "Account" && ViewContext.RouteData.Values["action"].ToString() == "Index") ? "active" : "")">
+                        <a class="nav-link active mt-5" href="@Url.Action("Index", "Account")" id="dashboardLink">
+                            <span data-feather="home"></span>
+                            <i class="fa-solid fa-house"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2 @((ViewContext.RouteData.Values["controller"].ToString() == "Vendors") ? "active" : "")">
+                        <a class="nav-link" href="@Url.Action("Index", "Vendors")" id="ordersLink">
+                            <span data-feather="file"></span>
+                            <i class="fa-solid fa-users"></i> Vendors
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2 @((ViewContext.RouteData.Values["controller"].ToString() == "Products" ) ? "active" : "")">
+                        <a class="nav-link " href="@Url.Action("Index", "Products")" id="productsLink">
+                            <span data-feather="shopping-cart"></span>
+                            <i class="fa-solid fa-desktop"></i> Products
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item dropdown mb-2 @(ViewContext.RouteData.Values["controller"].ToString() == "Assets" ? "active" : "")" onmouseover="showDropdown('assetsDropdown')" onmouseout="hideDropdown('assetsDropdown')">
+                        <a class="nav-link dropdown-toggle " href="#" id="assetsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="users"></span>
+                            <i class="fa-solid fa-gear"></i> Assets
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="assetsDropdown" onmouseover="showDropdown('assetsDropdown')" onmouseout="hideDropdown('assetsDropdown')">
+                            <a class="dropdown-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")" href="@Url.Action("Index", "Assets")" id="listAssetsLink">List</a>
+                            <a class="dropdown-item @(ViewContext.RouteData.Values["action"].ToString() == "Add" ? "active" : "")" href="@Url.Action("Add", "Assets")" id="addAssetsLink">Add</a>
+                            <a class="dropdown-item @(ViewContext.RouteData.Values["action"].ToString() == "AssignedAssets" ? "active" : "")" href="@Url.Action("AssignedAssets", "Assets")" id="assignAssetsLink">Assigned Assets</a>
+                            <a class="dropdown-item @(ViewContext.RouteData.Values["action"].ToString() == "Components" ? "active" : "")" href="#" id="componentsLink">Components</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="#" id="reportsLink">
+                            <span data-feather="shopping-cart"></span>
+                            <i class="fa-solid fa-file"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" onmouseover="showDropdown('adminDropdown')" onmouseout="hideDropdown('adminDropdown')">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="users"></span>
+                            <i class="fa-solid fa-gear"></i> Admin
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="adminDropdown" onmouseover="showDropdown('adminDropdown')" onmouseout="hideDropdown('adminDropdown')">
+                            <a class="dropdown-item" href="#" id="locationsLink">Locations</a>
+                            <a class="dropdown-item" href="#" id="notificationsLink">Notifications</a>
+                            <a class="dropdown-item" href="#" id="departmentsLink">Departments</a>
+                            <a class="dropdown-item" href="#" id="productTypeLink">Product Type</a>
+                            <a class="dropdown-item" href="#" id="itTeamMembersLink">IT Team Members</a>
+                            <a class="dropdown-item" href="#" id="employeesLink">Employees</a>
+                        </div>
+                    </li>
+                    <li class="nav-item logout_button">
+                        @using (Html.BeginForm("Logout", "Account", FormMethod.Get))
+                        {
+                            <button type="submit" class="btn btn-danger mt-2">Logout</button>
+                        }
+                    </li>
                 </ul>
             </div>
-        </div>
-    </div>*@
+        </nav>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 content my-element">
+            <!-- Page content goes here -->
+            <div class="container body-content">
+                @RenderBody()
+                <footer>
+                    @*<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>*@
+                </footer>
+            </div>
+        </main>
     </div>
+
+
+    <script src="https://kit.fontawesome.com/b4f739a393.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+
+        var assetsDropdownOpen = false;
+        var adminDropdownOpen = false;
+
+        function showDropdown(dropdownId) {
+            if (dropdownId === "assetsDropdown") {
+                if (!assetsDropdownOpen) {
+                    document.getElementById(dropdownId).setAttribute("aria-expanded", "true");
+                    document.querySelector("#" + dropdownId + " + .dropdown-menu").classList.add("show");
+                    assetsDropdownOpen = true;
+                }
+            } else if (dropdownId === "adminDropdown") {
+                if (!adminDropdownOpen) {
+                    document.getElementById(dropdownId).setAttribute("aria-expanded", "true");
+                    document.querySelector("#" + dropdownId + " + .dropdown-menu").classList.add("show");
+                    adminDropdownOpen = true;
+                }
+            }
+        }
+
+        function hideDropdown(dropdownId) {
+            if (dropdownId === "assetsDropdown") {
+                if (assetsDropdownOpen) {
+                    document.getElementById(dropdownId).setAttribute("aria-expanded", "false");
+                    document.querySelector("#" + dropdownId + " + .dropdown-menu").classList.remove("show");
+                    assetsDropdownOpen = false;
+                }
+            } else if (dropdownId === "adminDropdown") {
+                if (adminDropdownOpen) {
+                    document.getElementById(dropdownId).setAttribute("aria-expanded", "false");
+                    document.querySelector("#" + dropdownId + " + .dropdown-menu").classList.remove("show");
+                    adminDropdownOpen = false;
+                }
+            }
+        }
+
+    </script>
 </body>
 </html>

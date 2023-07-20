@@ -1,0 +1,103 @@
+﻿
+
+.main_contain {
+    margin: 2px 0px 2px 15px;
+    text-align: center;
+    /*background-color: ;*/
+}
+
+.form_container{
+    margin:0 10em 0 20em;
+}
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group,.form-group-1 {
+    margin-bottom: 15px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.input-field {
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #C0DEFF;
+    transition: background-color 0.3s ease;
+}
+
+    .input-field:hover {
+        background-color: #85CDFD;
+    }
+
+
+.select-field {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #C0DEFF;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+    .select-field:hover {
+        background-color: #85CDFD;
+    }
+
+.button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .button:hover {
+        background-color: #0069d9;
+    }
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+    .row .form-group {
+        width: 100%;
+    }
+
+@media screen and (min-width: 480px) {
+    .row .form-group {
+        width: calc(50% - 10px);
+    }
+}
+.content{
+    padding-top:5px;
+}
+/*#address, vendor-name, contact-person{
+    max-width: 600px;
+    box-sizing: border-box;
+}*/
