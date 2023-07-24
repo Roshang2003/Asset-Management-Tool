@@ -39,8 +39,6 @@ public class AccountController : Controller
                 FormsAuthentication.SetAuthCookie(model.Email, false);
 
                 return RedirectToAction("Index", "Account");
-                
-                //return RedirectToAction("Index", "Account");
             }
             else
             {
@@ -51,11 +49,6 @@ public class AccountController : Controller
         return View(model);
     }
 
-
-    //public ActionResult Index()
-    //{
-    //    return View();
-    //}
 
     public ActionResult Logout()
     {
@@ -104,7 +97,6 @@ public class AccountController : Controller
     [HttpGet]
     public ActionResult Index()
     {
-        //int vendorCount = (int)ViewBag.VendorCount;
         string name = GetUserNameByEmail(User.Identity.Name); // Retrieve the name from the database using the email
 
         Session["UserName"] = name;
@@ -116,6 +108,7 @@ public class AccountController : Controller
         {
             Vendors = CountVendors(loggedInUserID),
             Products = CountProducts(loggedInUserID),
+            Assets = CountAssets(loggedInUserID),
         };
 
         return View(dashboardDetails);
@@ -261,5 +254,29 @@ public class AccountController : Controller
         }
         return 0;
     }
+    
+    int CountAssets(int loggedInUserID)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT Count(*) FROM asset WHERE USER_ID = @USER_ID";
+                command.Parameters.AddWithValue("@USER_ID", loggedInUserID);
+
+                var result = command.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+        }
+        return 0;
+    }
+
+    
 
 }

@@ -7,7 +7,8 @@
     <title>Asset Management Web Application</title>
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    
+    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
     <style>
         /* Custom styles for the sidebar navbar */
         .sidebar {
@@ -80,10 +81,20 @@
             background-color: #068FFF;
         }
 
+        .sidebar .nav-item.active > a.nav-link {
+            background-color: #f8f9fa;
+            color: #0C134F;
+            font-weight: bold;
+        }
+
+        .sidebar .nav-item a.nav-link:hover {
+            color: #0C134F;
+            font-weight:bold;
+        }
+        
         .my-element {
             margin-left: 16.39%; /* Default margin for larger screens */
         }
-        /* ... (existing styles) ... */
         @*@media (max-width: 768px) {
             .my-element {
                 margin-left: 10px; /* Specify the desired margin for smaller screens */
