@@ -62,7 +62,7 @@
                         <td class="border">
                             <a href="@Url.Action("Details", "Products", new { id = Model[i].ProductID })" style="color: #A076F9; "> <i class="fa-regular fa-eye"></i></a>
                             <a href="@Url.Action("Edit", "Products", new { id = Model[i].ProductID })" style="color: #A076F9; "> <i class="fa-regular fa-pen-to-square"></i></a>
-                            <a href="#" class="delete-btn" data-vendorid="@Model[i].ProductID" data-toggle="modal" data-target="#myModal" style="color: #A076F9; "> <i class="fa-sharp fa-solid fa-trash"></i></a>
+                            <a href="#" class="delete-btn" data-productid="@Model[i].ProductID" data-toggle="modal" data-target="#myModal" style="color: #A076F9; "> <i class="fa-sharp fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -80,11 +80,11 @@
                     <table>
                         <tr>
                             <th>Product ID:</th>
-                            <td id="vendorId"></td>
+                            <td id="productId"></td>
                         </tr>
                         <tr>
                             <th>Product Name:</th>
-                            <td id="vendorName"> </td>
+                            <td id="productName"> </td>
                         </tr>
                         <!-- Include other vendor details as needed -->
                     </table>
@@ -92,7 +92,7 @@
                 <div class="modal-footer">
                     @using (Html.BeginForm("DeleteConfirmed", "Products", FormMethod.Post))
                     {
-                        @Html.Hidden("id", null, new { id = "deleteVendorId" })
+                        @Html.Hidden("id", null, new { id = "deleteProductId" })
                         <button type="submit" class="btn btn-danger">Delete</button>
                     }
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -105,10 +105,10 @@
     <script>
         $(document).ready(function () {
             $('.delete-btn').click(function () {
-                var vendorId = $(this).data('vendorid');
-                $('#deleteVendorId').val(vendorId);
-                $('#vendorId').text(vendorId);
-                $('#vendorName').text($(this).closest('tr').find('td:nth-child(2)').text());
+                var productID = $(this).data('productid');
+                $('#deleteProductId').val(productID);
+                $('#productId').text(productID);
+                $('#productName').text($(this).closest('tr').find('td:nth-child(2)').text());
                 //$('#myModal').modal('show');
             });
         });

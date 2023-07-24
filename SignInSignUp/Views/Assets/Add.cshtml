@@ -36,17 +36,21 @@
         .custom-table {
             border-color: #EDE4FF; /* Replace with the desired color */
         }
+        .add_new_vendor {
+            margin-left: 80%;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
 <body style="background-color: #F8F3FF ">
-
     @using (Html.BeginForm("Add", "Assets", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="main_container">
-            <h2 class=" mb-5 mt-3">Add New Asset</h2>
+            <h2 class=" mb-2 mt-3">Add New Asset</h2>
+            <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Assets")" role="button">Back To List</a>
             <table class="table table-bordered custom-table">
                 <tr class="row levels">
                     <td style="font-weight: bold; background-color: #F6F1FF">Basic Info</td>
@@ -153,7 +157,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td>
                                     <div>
@@ -177,7 +181,7 @@
 
                     <td class="col col-xs-12 col-sm-12 col-md-6" style="padding:2em 0 2em 2em">
                         <table>
-                            
+
                             <tr>
                                 <td>
                                     <div class="lebels form-group">

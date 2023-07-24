@@ -7323,6 +7323,7 @@
     <Content Include="Views\Assets\Index.cshtml" />
     <Content Include="Views\Assets\Add.cshtml" />
     <Content Include="Views\Assets\AssignedAssets.cshtml" />
+    <Content Include="Views\Assets\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

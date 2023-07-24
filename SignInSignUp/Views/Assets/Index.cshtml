@@ -1,4 +1,4 @@
-﻿
+﻿@model List<SignInSignUp.Models.Asset>
 @{
     ViewBag.Title = "Index";
 }
@@ -48,26 +48,29 @@
                     <th class="border col-1">S.No</th>
                     <th class="border col">Asset Name</th>
                     <th class="border col">Serial No</th>
-                    <th class="border col">Product Name</th>
+                    <th class="border col">Product</th>
+                    <th class="border col">Vendor</th>
                     <th class="border col">Assign</th>
                     <th class="border col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @*@for (int i = 0; i < Model.Count(); i++)
+                @for (int i = 0; i < Model.Count(); i++)
                 {
                     <tr class="border-2">
-                        <th scope="row" class="border">@(i + 1) </th>
-                        <td class="border">@Model[i].ProductName</td>
-                        <td class="border">@Model[i].ProductType</td>
-                        <td class="border">@Model[i].ProductCategory</td>
-                        <td class="border">
-                            <a href="@Url.Action("Details", "Products", new { id = Model[i].ProductID })" style="color: #A076F9; "> <i class="fa-regular fa-eye"></i></a>
-                            <a href="@Url.Action("Edit", "Products", new { id = Model[i].ProductID })" style="color: #A076F9; "> <i class="fa-regular fa-pen-to-square"></i></a>
-                            <a href="#" class="delete-btn" data-vendorid="@Model[i].ProductID" data-toggle="modal" data-target="#myModal" style="color: #A076F9; "> <i class="fa-sharp fa-solid fa-trash"></i></a>
+                        <th class="border col-1">@(i + 1) </th>
+                        <td class="border col">@Model[i].AssetName</td>
+                        <td class="border col">@Model[i].SerialNumber</td>
+                        <td class="border col">@Model[i].Product.ProductName</td>
+                        <td class="border col">@Model[i].Vendor.VendorName</td>
+                        <td class="border col"><a href="#" class="btn btn-primary btn-sm">Assign</a></td>
+                        <td class="border col">
+                            <a href="@Url.Action("Details", "Assets", new { assetID  = Model[i].AssetId })" style="color: #A076F9; "> <i class="fa-regular fa-eye"></i></a>
+                            <a href="@Url.Action("Edit", "Assets", new { assetID  = Model[i].AssetId })" style="color: #A076F9; "> <i class="fa-regular fa-pen-to-square"></i></a>
+                            <a href="#" class="delete-btn" data-assetid="@Model[i].AssetId" data-toggle="modal" data-target="#myModal" style="color: #A076F9; "> <i class="fa-sharp fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
-                }*@
+                }
             </tbody>
         </table>
     </div>
@@ -82,11 +85,11 @@
                     <table>
                         <tr>
                             <th>Product ID:</th>
-                            <td id="vendorId"></td>
+                            <td id="assetId"></td>
                         </tr>
                         <tr>
                             <th>Product Name:</th>
-                            <td id="vendorName"> </td>
+                            <td id="assetName"> </td>
                         </tr>
                         <!-- Include other vendor details as needed -->
                     </table>
@@ -94,7 +97,7 @@
                 <div class="modal-footer">
                     @using (Html.BeginForm("DeleteConfirmed", "Products", FormMethod.Post))
                     {
-                        @Html.Hidden("id", null, new { id = "deleteVendorId" })
+                        @Html.Hidden("id", null, new { id = "deleteAssetId" })
                         <button type="submit" class="btn btn-danger">Delete</button>
                     }
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -107,10 +110,10 @@
     <script>
         $(document).ready(function () {
             $('.delete-btn').click(function () {
-                var vendorId = $(this).data('vendorid');
-                $('#deleteVendorId').val(vendorId);
-                $('#vendorId').text(vendorId);
-                $('#vendorName').text($(this).closest('tr').find('td:nth-child(2)').text());
+                var assetId = $(this).data('assetid');
+                $('#deleteAssetId').val(assetId);
+                $('#assetId').text(assetId);
+                $('#assetName').text($(this).closest('tr').find('td:nth-child(2)').text());
                 //$('#myModal').modal('show');
             });
         });
