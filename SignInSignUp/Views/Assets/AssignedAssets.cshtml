@@ -16,18 +16,14 @@
             /*background-color: ;*/
         }
 
-        .add_new_product {
-            margin-left: 80%;
-            margin-bottom: 20px;
-        }
-
         .custom-table {
             border: 2px solid #EDE4FF;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-            .custom-table thead th {
-                background-color: #F6F1FF;
-            }
+        .custom-table thead th {
+            background-color: #F6F1FF;
+        }
 
         .border {
             border-color: #EDE4FF;
@@ -38,7 +34,7 @@
 <body style="background-color: #F8F3FF ">
     <div class="main_container">
         <h2 class="mb-4">Assigned Assets</h2>
-        <div>
+        <div class="top-button">
             <a class="btn btn-secondary add_new_product" href="@Url.Action("Add", "Assets")" role="button">Add New Asset</a>
         </div>
         <table class="table table-bordered custom-table border-4">

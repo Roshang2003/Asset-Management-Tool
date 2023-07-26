@@ -13,12 +13,6 @@
         .main_container {
             margin: 2px 0px 2px 15px;
             text-align: center;
-            /*background-color: ;*/
-        }
-
-        .add_new_vendor {
-            margin-left: 80%;
-            margin-bottom: 20px;
         }
 
         td {
@@ -28,8 +22,17 @@
         .lebels {
             font-weight: bold;
         }
-        .custom-table {
-            border-color: #EDE4FF; /* Replace with the desired color */
+        .custom-table td {
+            padding: 5px;
+            border: none !important; /* Remove borders from all table cells and give it higher priority */
+        }
+
+        .table-parent {
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
         }
     </style>
 </head> 
@@ -37,74 +40,71 @@
 <body style="background-color: #F8F3FF" >
     <div class="main_container">
         <h2 class=" mb-4">Product</h2>
-        <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Products")" role="button">Back To List</a>
-        <table class="table table-bordered custom-table">
+        <div class="top-button">
+            <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Products")" role="button">Back To List</a>
+        </div>
 
-            <tr class="row">
-                <td class="col" style="padding:2em 0 2em 2em">
-                    <table>
-                        <tr>
-                            <td>
-                                <p class="lebels">Product Name :</p>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <p>@Model.ProductName</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="lebels">Product Manufacturer :</p>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <p>@Model.Manufacturer</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p class="lebels">Type of Product :</p>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <p>@Model.ProductType</p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+        <div class="table-parent">
+            <div style="flex:1">
+                <table class="table custom-table">
+                    <tr>
+                        <td>
+                            <p class="lebels">Product Name :</p>
+                        </td>
+                        <td style="padding-left: 2em;">
+                            <p>@Model.ProductName</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="lebels">Product Manufacturer :</p>
+                        </td>
+                        <td style="padding-left: 2em;">
+                            <p>@Model.Manufacturer</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="lebels">Type of Product :</p>
+                        </td>
+                        <td style="padding-left: 2em;">
+                            <p>@Model.ProductType</p>
+                        </td>
 
+                    </tr>
+                </table>
+            </div>
+            <div style="flex:1">
+                <table class="table custom-table">
+                    <tr>
+                        <td style="width: 24%">
+                            <p class="lebels">Product ID :</p>
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <p>@Model.ProductID</p>
+                        </td>
+                    </tr>
 
-                <td class="col" style="padding:2em 0 2em 2em">
-                    <table>
-                        <tr>
-                            <td style="width: 24%">
-                                <p class="lebels">Product ID :</p>
-                            </td>
-                            <td style="padding-left: 0.5em;">
-                                <p>@Model.ProductID</p>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="width: 24%">
-                                <p class="lebels">Product Category :</p>
-                            </td>
-                            <td style="padding-left: 0.5em;">
-                                <p>@Model.ProductCategory</p>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="width: 24%">
-                                <p class="lebels">Description :</p>
-                            </td>
-                            <td style="padding-left: 0.5em; ">
-                                <p>@Model.Description </p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+                    <tr>
+                        <td style="width: 24%">
+                            <p class="lebels">Product Category :</p>
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <p>@Model.ProductCategory</p>
+                        </td>
+                    </tr>
 
-
+                    <tr>
+                        <td style="width: 24%">
+                            <p class="lebels">Description :</p>
+                        </td>
+                        <td style="padding-left: 0.5em; ">
+                            <p>@Model.Description </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 

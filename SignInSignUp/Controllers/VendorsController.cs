@@ -18,8 +18,13 @@ namespace SignInSignUp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            int loggedInUserID = (int)Session["UserID"];
-            List<VendorTable> vendors = GetVendorsByUserID(loggedInUserID);
+            int? loggedInUserID = (int)Session["UserID"] as int?;
+            if (loggedInUserID == null)
+            {
+                // Handle the case where UserID is null or invalid
+                RedirectToAction("Login", "Account");
+            }
+            List<VendorTable> vendors = GetVendorsByUserID((int)loggedInUserID);
 
             return View(vendors);
         }

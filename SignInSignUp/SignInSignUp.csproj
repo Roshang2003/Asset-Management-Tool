@@ -7324,6 +7324,7 @@
     <Content Include="Views\Assets\Add.cshtml" />
     <Content Include="Views\Assets\AssignedAssets.cshtml" />
     <Content Include="Views\Assets\Details.cshtml" />
+    <Content Include="Views\Assets\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -7332,7 +7333,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Invoices\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="bower_components\fullcalendar\dist\fullcalendar.d.ts" />

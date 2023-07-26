@@ -95,6 +95,22 @@
         .my-element {
             margin-left: 16.39%; /* Default margin for larger screens */
         }
+
+        ::selection {
+            background-color: #2196F3;
+            color: white;
+            /*background-color: #A9C4FF;*/
+        }
+        .top-button {
+            display: flex;
+            justify-content: end;
+            height: 100%; /* Make sure the div has a defined height for vertical centering to work */
+            background-color: white;
+            padding: 15px 15px 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
         @*@media (max-width: 768px) {
             .my-element {
                 margin-left: 10px; /* Specify the desired margin for smaller screens */
@@ -104,7 +120,7 @@
 
 
 </head>
-<body>
+<body >
 
     <div class="container-fluid row">
         <nav class="col-md-2 d-none d-md-block sidebar">

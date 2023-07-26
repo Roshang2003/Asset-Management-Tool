@@ -17,8 +17,13 @@ namespace SignInSignUp.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            int loggedInUserID = (int)Session["UserID"];
-            List<ProductsTable> products = GetProductsByUserID(loggedInUserID);
+            int? loggedInUserID = (int)Session["UserID"] as int?;
+            if (loggedInUserID == null)
+            {
+                // Handle the case where UserID is null or invalid
+                RedirectToAction("Login", "Account");
+            }
+            List<ProductsTable> products = GetProductsByUserID((int)loggedInUserID);
             return View(products);
         }
 
@@ -80,7 +85,6 @@ namespace SignInSignUp.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 using (var connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
@@ -104,8 +108,10 @@ namespace SignInSignUp.Controllers
             }
             return View(productEdit);
         }
+
         public List<ProductsTable> GetProductsByUserID(int userID)
         {
+
             List<ProductsTable> products = new List<ProductsTable>();
 
             using (var connection = new MySqlConnection(connectionString))
