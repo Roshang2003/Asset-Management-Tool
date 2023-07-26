@@ -10,19 +10,10 @@
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .body {
-            background-color: #f1f1f1;
-        }
 
         .main_container {
-            margin: 2px 0px 2px 15px;
+            margin: 0 15px;
             text-align: center;
-            /*background-color: ;*/
-        }
-
-        .add_new_vendor {
-            margin-left: 80%;
-            margin-bottom: 20px;
         }
 
         td {
@@ -33,16 +24,30 @@
             font-weight: bold;
         }
 
-        .custom-table {
-            border-color: #EDE4FF; /* Replace with the desired color */
+        .custom-table td {
+            padding: 5px;
+            border: none !important; /* Remove borders from all table cells and give it higher priority */
         }
-        .add_new_vendor {
-            margin-left: 80%;
-            margin-bottom: 20px;
+
+        .table-parent {
+            padding: 20px 0 10px 40px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
         }
 
         .form-group{
             margin-bottom:13px;
+        }
+        .information {
+            font-weight: bold;
+            background-color: #F6F1FF;
+            color: black;
+            text-align: left;
+            padding:15px 0 3px 15px ;
+            
+            box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1), -5px 0px 10px rgba(0, 0, 0, 0.1), 5px 0px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -50,158 +55,155 @@
 <body style="background-color: #F8F3FF ">
 
     <div class="main_container">
-        <h2 class=" mb-2 mt-3">Add New Asset</h2>
-        <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Assets")" role="button">Back To List</a>
-        <table class="table table-bordered custom-table">
-            <tr class="row levels">
-                <td style="font-weight: bold; background-color: #F6F1FF">Basic Info</td>
-            </tr>
-            <tr class="row">
-                <td class="col col-xs-12 col-sm-12 col-md-6" style="padding:2em 0 2em 2em">
-                    <table>
-                        <tr>
-                            <td>
-                                <div class="form-group lebels">
-                                    Asset Name
-                                </div>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <div class="form-group">
-                                    @Model.AssetName
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="form-group lebels">
-                                    Product Category
-                                </div>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <div class="form-group">
-                                    @Model.ProductCategory
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="form-group lebels">
-                                    <div>
-                                        Product
-                                    </div>
-                                </div>
-                            </td>
-                            <td style="padding-left: 3em;">
-                                <div class="form-group">
-                                    @Model.ProductName
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+        <h2 class=" mb-2 mt-3">Details</h2>
 
+        <div class="top-button">
+            <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Assets")" role="button">Back To List</a>
+        </div>
 
-                <td class="col col-xs-12 col-sm-12 col-md-6" style="padding:2em 0 2em 2em">
-                    <table>
-                        <tr>
-                            <td style="width: 24%">
-                                <div class="form-group lebels">
-                                    Serial Number
-                                </div>
-                            </td>
-                            <td style="padding-left: 0.5em;">
-                                <div class="form-group">
-                                    @Model.SerialNumber
-                                </div>
-                            </td>
-                        </tr>
+        <div class="information">
+            <p>Basic Info</p>
+        </div>
 
-                        <tr>
-                            <td style="width: 24%">
-                                <div class="form-group lebels">
-                                    Description
-                                </div>
-                            </td>
-                            <td style="padding-left: 0.5em; ">
-                                <div class="form-group">
-                                    @Model.Description
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-
-        <table class="table table-bordered custom-table mt-5">
-            <tr class="row levels">
-                <td style="font-weight: bold; background-color: #F6F1FF">Additional Info</td>
-            </tr>
-            <tr class="row">
-                <td class="col col-xs-12 col-sm-12 col-md-6" style="padding:2em 0 2em 2em">
-                    <table>
-                        <tr>
-                            <td>
-                                <div class="lebels form-group">
-                                    Vendor
-                                </div>
-                            </td>
-                            <td style="padding-left: 3em;" class="form-group">
-                                <div class="form-group">
-                                    @Model.VendorName
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
+        <div class="table-parent">
+            <div style="flex:1">
+                <table class="table custom-table">
+                    <tr>
+                        <td style="width:35%">
+                            <div class="form-group lebels">
+                                Asset Name
+                            </div>
+                        </td>
+                        <td style="padding-left: 1em; ">
+                            <div>
+                                @Model.AssetName
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:35%">
+                            <div class="form-group lebels">
+                                Product Category
+                            </div>
+                        </td>
+                        <td style="padding-left: 1em;">
+                            <div class="form-group">
+                                @Model.ProductCategory
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:35%">
+                            <div class="form-group lebels">
                                 <div>
-                                    @*@Html.LabelFor(model => model.)*@
+                                    Product
                                 </div>
-                            </td>
-                            <td style="padding-left: 3em;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @*<p class="lebels">Type of Product :</p>*@
-                            </td>
-                            <td style="padding-left: 3em;">
-                                @*<p>@Model.ProductType</p>*@
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+                            </div>
+                        </td>
+                        <td style="padding-left: 1em;">
+                            <div class="form-group">
+                                @Model.ProductName
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="flex:1">
+                <table class="table custom-table">
+                    <tr>
+                        <td style="width: 24%">
+                            <div class="form-group lebels">
+                                Serial Number
+                            </div>
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <div class="form-group">
+                                @Model.SerialNumber
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 24%">
+                            <div class="form-group lebels">
+                                Description
+                            </div>
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <div class="form-group">
+                                @Model.Description
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="information">
+            <p>Additional Info</p>
+        </div>
+
+        <div class="table-parent">
+            <div style="flex:1">
+                <table class="table custom-table">
+                    <tr>
+                        <td style="width:35%">
+                            <div class="lebels form-group">
+                                Vendor
+                            </div>
+                        </td>
+                        <td style="padding-left: 1em;">
+                            <div class="form-group">
+                                @Model.VendorName
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width:35%">
+                            <div class="lebels form-group">
+                                Invoice
+                            </div>
+                        </td>
+                        <td style="padding-left: 1em;">
+                            <div class="form-group">
+                                @if (!string.IsNullOrEmpty(Model.InvoiceFilePath))
+                                {
+                                    <a href="@Url.Action("DownloadInvoice", "Assets", new { fileName = Model.InvoiceFilePath })">Download Invoice</a>
+                                }
+                                else
+                                { <p>N/A</p>
+                                }
+                            </div>
+                        </td>
+                    </tr>
 
 
-                <td class="col col-xs-12 col-sm-12 col-md-6" style="padding:2em 0 2em 2em">
-                    <table>
+                </table>
+            </div>
 
-                        <tr>
-                            <td>
-                                <div class="lebels form-group">
-                                    Price
-                                </div>
-                            </td>
-                            <td style="padding-left: 3em;" class="form-group">
-                                <div class="form-group">
-                                    @Model.Price
-                                </div>
-                            </td>
-                        </tr>
+            <div style="flex:1">
+                <table>
+                    <tr>
+                        <td style="width: 24%">
+                            <div class="form-group lebels">
+                                Price
+                            </div>
+                        </td>
+                        <td style="padding-left: 5.5em;">
+                            <div class="form-group">
+                                @Model.Price
+                            </div>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td style="width: 24%">
-                                @*<p class="lebels">Description :</p>*@
-                            </td>
-                            <td style="padding-left: 0.5em; ">
-                                @*<p>@Model.Description </p>*@
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+
+                </table>
+            </div>
+        </div>
+
     </div>
 </body>
 

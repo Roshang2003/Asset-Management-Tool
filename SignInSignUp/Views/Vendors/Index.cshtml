@@ -16,24 +16,22 @@
             /*background-color: ;*/
         }
 
-        .add_new_vendor {
-            margin-left: 80%;
-            margin-bottom: 20px;
-        }
         .custom-table {
             border: 2px solid #EDE4FF;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .custom-table thead th {
             background-color: #F6F1FF;
         }
+
     </style>
 </head>
 
 <body style="background-color: #F8F3FF ">
     <div class="main_container">
         <h2 class="mb-4">Vendors</h2>
-        <div>
+        <div class="top-button">
             <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Create", "Vendors")" role="button">Add New Vendor</a>
         </div>
         <table class="table custom-table table-bordered border-4">
@@ -48,14 +46,15 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < Model.Count(); i++)
+                @for (int j = 0; j < 5*Model.Count(); j++)
                 {
+                    int i = j% Model.Count();
                     if (Model[i].email.Count()==0)
                     {
                         Model[i].email = "N/A";
                     }
                     <tr>
-                        <th scope="row" class="border">@(i + 1)</th>
+                        <th scope="row" class="border">@(j + 1)</th>
                         <td class="border">@Model[i].vendorName</td>
                         <td class="border">@Model[i].name</td>
                         <td class="border">@Model[i].email</td>

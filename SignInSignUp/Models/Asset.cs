@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -39,6 +40,24 @@ namespace SignInSignUp.Models
         public List<Vendor> Vendors { get; set; }
         public Product Product { get; set; }
         public Vendor Vendor { get; set; }
+
+        [Display(Name = "Invoice")]
+        public HttpPostedFileBase InvoiceFile { get; set; }
+
+        // New properties for storing the file path and content type
+        public string InvoiceFilePath { get; set; }
+        public string InvoiceContentType { get; set; }
+
+
+        // Add a new property to store the path of the existing invoice file
+        public string ExistingInvoiceFilePath { get; set; }
+
+        // Add a new property to store the content type of the existing invoice file
+        public string ExistingInvoiceContentType { get; set; }
+
+        // Add a new property to store the uploaded new invoice file
+        [NotMapped] // This attribute ensures that the property is not mapped to the database
+        public HttpPostedFileBase NewInvoiceFile { get; set; }
     }
 
     public class Product
@@ -77,5 +96,11 @@ namespace SignInSignUp.Models
         public int VendorID { get; set; }
         public int ProductID { get; set; }
 
+        public string InvoiceFilePath { get; set; }
+        public string InvoiceContentType { get; set; }
+
     }
+
+
+
 }
