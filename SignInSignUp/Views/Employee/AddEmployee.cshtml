@@ -1,14 +1,12 @@
-﻿@model SignInSignUp.Models.Asset
+﻿@model SignInSignUp.Models.Employee
 @{
-    ViewBag.Title = "Add";
+    ViewBag.Title = "Add New Employee";
 }
-
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://kit.fontawesome.com/b4f739a393.js" crossorigin="anonymous"></script>
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
     <style>
         .main_container {
             margin: 0 15px;
@@ -48,27 +46,31 @@
             padding: 15px 0 10px 15px;
             box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.1), 0px 10px 20px rgba(0, 0, 0, 0.1), -5px 0px 10px rgba(0, 0, 0, 0.1), 5px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .information p{
-            margin-bottom:0;
-        }
-        .form-control {
-            width: 70%;
+
+            .information p {
+                margin-bottom: 0;
+            }
+
+        .form-control{
+            width:70%;
         }
     </style>
 </head>
 
 <body style="background-color: #F8F3FF ">
-    @using (Html.BeginForm("Add", "Assets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+    @using (Html.BeginForm("AddEmployee", "Employee", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
 
 
         <div class="main_container">
-            <h2 class=" mb-2 mt-3">Add New Asset</h2>
+            <h2 class=" mb-2 mt-3">Add New Employee</h2>
 
             <div class="top-button">
-                <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Assets")" role="button">Back To List</a>
+                <a class="btn btn-secondary add_new_vendor" href="@Url.Action("Index", "Employee")" role="button">Back To List</a>
             </div>
 
             <div class="information">
@@ -81,26 +83,24 @@
                         <tr>
                             <td>
                                 <div class="form-group lebels">
-                                    @Html.LabelFor(model => model.AssetName)
+                                    @Html.LabelFor(model => model.Name)
                                 </div>
                             </td>
-                            <td style="padding-left: 3em;">
+                            <td >
                                 <div>
-                                    @Html.TextBoxFor(model => model.AssetName, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.AssetName, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @required = "required" })
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="form-group lebels">
-                                    @Html.LabelFor(model => model.ProductCategory)
+                                    @Html.LabelFor(model => model.Ecode)
                                 </div>
                             </td>
-                            <td style="padding-left: 3em;">
+                            <td >
                                 <div>
-                                    @Html.DropDownListFor(model => model.ProductCategory, new SelectList(Model.ProductCategories), "Select Product Category", new { @class = "form-control", id = "productCategoryDropdown" })
-                                    @Html.ValidationMessageFor(model => model.ProductCategory, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.Ecode, new { @class = "form-control", @required = "required" })
                                 </div>
                             </td>
                         </tr>
@@ -108,14 +108,15 @@
                             <td>
                                 <div class="form-group lebels">
                                     <div>
-                                        @Html.LabelFor(model => model.ProductId)
+                                        @Html.LabelFor(model => model.Gender)
+                                        
                                     </div>
                                 </div>
                             </td>
-                            <td style="padding-left: 3em;">
+                            <td>
                                 <div>
-                                    @Html.DropDownListFor(model => model.ProductId, new SelectList(Model.Products, "ProductId", "ProductName"), "Select Product", new { @class = "form-control", id = "productDropdown" })
-                                    @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.Gender, ViewBag.GenderList as List<SelectListItem>, "Select Gender", new { @class = "form-control", @required = "required" })
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -126,13 +127,12 @@
                         <tr>
                             <td style="width: 24%">
                                 <div class="form-group lebels">
-                                    @Html.LabelFor(model => model.SerialNumber)
+                                    @Html.LabelFor(model => model.MobileNo)
                                 </div>
                             </td>
                             <td style="padding-left: 0.5em;">
                                 <div>
-                                    @Html.TextBoxFor(model => model.SerialNumber, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.SerialNumber, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @required = "required" })
                                 </div>
                             </td>
                         </tr>
@@ -140,13 +140,12 @@
                         <tr>
                             <td style="width: 24%">
                                 <div class="form-group lebels">
-                                    @Html.LabelFor(model => model.Description)
+                                    @Html.LabelFor(model => model.Address)
                                 </div>
                             </td>
                             <td style="padding-left: 0.5em; ">
                                 <div>
-                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @required = "required" })
                                 </div>
                             </td>
                         </tr>
@@ -166,28 +165,29 @@
                         <tr>
                             <td>
                                 <div class="lebels form-group">
-                                    Vendor
+                                    @Html.LabelFor(model => model.Department)
                                 </div>
                             </td>
                             <td style="padding-left: 3em;" class="form-group">
                                 <div>
-                                    @Html.DropDownListFor(model => model.VendorId, new SelectList(Model.Vendors, "VendorId", "VendorName"), "Select Vendor", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.VendorId)
+                                    @Html.DropDownListFor(model => model.Department, ViewBag.DepartmentList as List<SelectListItem>, "Select Department", new { @class = "form-control", @required = "required" })
                                 </div>
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <div class="lebels ">
-                                    @Html.LabelFor(model => model.InvoiceFile)
+                                <div class="lebels form-group">
+                                    @Html.LabelFor(model => model.Designation)
                                 </div>
                             </td>
-                            <td style="padding-left: 3em;">
-                                <input type="file" name="InvoiceFile" id="invoiceFile" class="form-control" />
+                            <td style="padding-left: 3em;" class="form-group">
+                                <div>
+                                    @Html.TextBoxFor(model => model.Designation, new { @class = "form-control", @required = "required" })
+                                </div>
                             </td>
                         </tr>
-                        
+
                     </table>
                 </div>
 
@@ -197,14 +197,11 @@
                         <tr>
                             <td>
                                 <div class="lebels form-group">
-                                    @Html.LabelFor(model => model.Price)
+                                    @Html.LabelFor(model => model.JoiningDate)
                                 </div>
                             </td>
                             <td style="padding-left: 3em;" class="form-group">
-                                <div>
-                                    @Html.TextAreaFor(model => model.Price, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Price)
-                                </div>
+                                <input type="text" id="joiningDate" name="JoiningDate" class="form-control datepicker" required />
                             </td>
                         </tr>
 
@@ -212,35 +209,23 @@
                 </div>
             </div>
             <br />
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Add Employee</button>
         </div>
+        
     }
-</body>
 
-</html>
-<script>
-    $(document).ready(function () {
-        $('#productCategoryDropdown').change(function () {
-            var category = $(this).val();
-            var productDropdown = $('#productDropdown');
+    <!-- Include the necessary JavaScript file for date picker -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 
-            $.ajax({
-                url: '@Url.Action("GetProductsByCategory", "Assets")',
-                type: 'GET',
-                data: { category: category },
-                success: function (data) {
-                    productDropdown.empty();
-
-                    if (data.length > 0) {
-                        $.each(data, function (index, item) {
-                            productDropdown.append($('<option></option>').val(item.ProductId).text(item.ProductName));
-                        });
-                    }
-                    else {
-                        productDropdown.append($('<option></option>').text('No Products'));
-                    }
-                }
+    <script>
+        $(document).ready(function () {
+            // Initialize the date picker
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
             });
         });
-    });
-</script>
+    </script>
+</body>
+</html>

@@ -10,17 +10,33 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
+            .pagination-container a {
+                padding: 8px 12px;
+                margin: 0 4px;
+                border: 1px solid #ddd;
+                background-color: #fff;
+                color: #333;
+                text-decoration: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+                .pagination-container a.active {
+                    background-color: #007bff;
+                    color: #fff;
+                    border-color: #007bff;
+                }
         .main_container {
             margin: 2px 0px 2px 15px;
             text-align: center;
             /*background-color: ;*/
         }
-
-       /* .add_new_product {
-            margin-left: 80%;
-            margin-bottom: 20px;
-        }*/
 
         .custom-table {
             border: 2px solid #EDE4FF;
@@ -38,6 +54,8 @@
 </head>
 
 <body style="background-color: #F8F3FF ">
+
+
     <div class="main_container">
         <h2 class="mb-4">Assets</h2>
         <div class="top-button">
@@ -66,7 +84,7 @@
                         <td class="border col">@Model[i].SerialNumber</td>
                         <td class="border col">@Model[i].Product.ProductName</td>
                         <td class="border col">@Model[i].Vendor.VendorName</td>
-                        <td class="border col"><a href="#" class="btn btn-primary btn-sm">Assign</a></td>
+                        <td class="border col"><a href="#" class="btn btn-primary btn-sm" style="padding: 1px 5px;">Assign</a></td>
                         <td class="border col">
                             <a href="@Url.Action("Details", "Assets", new { assetID  = Model[i].AssetId })" style="color: #A076F9; "> <i class="fa-regular fa-eye"></i></a>
                             <a href="@Url.Action("Edit", "Assets", new { assetID  = Model[i].AssetId })" style="color: #A076F9; "> <i class="fa-regular fa-pen-to-square"></i></a>
@@ -76,6 +94,9 @@
                 }
             </tbody>
         </table>
+        <div class="pagination-container" id="vendorPagination">
+            <!-- Pagination links will be generated dynamically here -->
+        </div>
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -109,7 +130,6 @@
         </div>
     </div>
 
-
     <script>
         $(document).ready(function () {
             $('.delete-btn').click(function () {
@@ -119,8 +139,87 @@
                 $('#assetName').text($(this).closest('tr').find('td:nth-child(2)').text());
                 //$('#myModal').modal('show');
             });
+
+            // Define a JavaScript variable for Model.Count
+            var originalItemCount = @Model.Count;
+            var itemCount = originalItemCount;
+
+            // Define a JavaScript variable for the number of items per page
+            var itemsOnPage = 5;
+
+            // Function to handle smart pagination changes
+            function handleSmartPagination(pageIndex) {
+                var totalPages = Math.ceil(itemCount / itemsOnPage);
+                var maxPagesToShow = 3; // Number of pagination buttons to show
+
+                var startPageIndex = pageIndex - Math.floor(maxPagesToShow / 2);
+                var endPageIndex = pageIndex + Math.floor(maxPagesToShow / 2);
+
+                if (startPageIndex < 0) {
+                    endPageIndex -= startPageIndex;
+                    startPageIndex = 0;
+                }
+
+                if (endPageIndex >= totalPages) {
+                    startPageIndex -= endPageIndex - totalPages + 1;
+                    endPageIndex = totalPages - 1;
+                }
+
+                if (startPageIndex < 0) {
+                    startPageIndex = 0;
+                }
+
+                // Generate pagination links with ellipsis
+                var paginationHtml = '';
+                if (startPageIndex > 0) {
+                    paginationHtml += '<a href="#" data-index="0">1</a>';
+                    if (startPageIndex > 1) {
+                        paginationHtml += '<span>...</span>';
+                    }
+                }
+
+                for (var i = startPageIndex; i <= endPageIndex; i++) {
+                    if (i === pageIndex) {
+                        paginationHtml += '<a href="#" data-index="' + i + '" class="active">' + (i + 1) + '</a>';
+                    } else {
+                        paginationHtml += '<a href="#" data-index="' + i + '">' + (i + 1) + '</a>';
+                    }
+                }
+
+                if (endPageIndex < totalPages - 1) {
+                    if (endPageIndex < totalPages - 2) {
+                        paginationHtml += '<span>...</span>';
+                    }
+                    paginationHtml += '<a href="#" data-index="' + (totalPages - 1) + '">' + totalPages + '</a>';
+                }
+
+                $("#vendorPagination").html(paginationHtml);
+
+                // Calculate the starting and ending indexes for the data to display on the current page
+                var startIndex = pageIndex * itemsOnPage;
+                var endIndex = (pageIndex + 1) * itemsOnPage;
+
+                // Hide all rows
+                $("tbody tr").hide();
+
+                // Show the rows for the current page
+                for (var j = startIndex; j < endIndex && j < originalItemCount; j++) {
+                    var i = j % originalItemCount;
+                    $("tbody tr:eq(" + i + ")").show();
+                }
+            }
+
+            // Attach event handler to the parent element of pagination links
+            $(document).on('click', '.pagination-container a', function () {
+                var pageIndex = parseInt($(this).data('index'));
+                handleSmartPagination(pageIndex);
+            });
+
+            // Initial page
+            handleSmartPagination(0);
         });
     </script>
+
 
 </body>
 </html>
