@@ -6,9 +6,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+            .pagination-container a {
+                padding: 8px 12px;
+                margin: 0 4px;
+                border: 1px solid #ddd;
+                background-color: #fff;
+                color: #333;
+                text-decoration: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+                .pagination-container a.active {
+                    background-color: #007bff;
+                    color: #fff;
+                    border-color: #007bff;
+                }
 
         .main_container {
             margin: 2px 0px 2px 15px;
@@ -21,18 +43,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .custom-table thead th {
-            background-color: #F6F1FF;
-        }
+            .custom-table thead th {
+                background-color: #F6F1FF;
+            }
 
         .border {
             border-color: #EDE4FF;
         }
-
     </style>
 </head>
 
 <body style="background-color: #F8F3FF ">
+
+
+
     <div class="main_container">
         <h2 class="mb-4">Products</h2>
         <div class="top-button">
@@ -52,7 +76,7 @@
                 @for (int i = 0; i < Model.Count(); i++)
                 {
                     <tr class="border-2">
-                        <th scope="row"  class="border">@(i + 1) </th>
+                        <th scope="row" class="border">@(i + 1) </th>
                         <td class="border">@Model[i].ProductName</td>
                         <td class="border">@Model[i].ProductType</td>
                         <td class="border">@Model[i].ProductCategory</td>
@@ -65,7 +89,11 @@
                 }
             </tbody>
         </table>
+        <div class="pagination-container" id="vendorPagination">
+            <!-- Pagination links will be generated dynamically here -->
+        </div>
     </div>
+
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -98,18 +126,92 @@
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
+            var originalItemCount = @Model.Count;
+            var itemCount = originalItemCount;
+            var itemsOnPage = 5;
+
+            function handleSmartPagination(pageIndex) {
+                var totalPages = Math.ceil(itemCount / itemsOnPage);
+                var maxPagesToShow = 3;
+                var startPageIndex = pageIndex - Math.floor(maxPagesToShow / 2);
+                var endPageIndex = pageIndex + Math.floor(maxPagesToShow / 2);
+
+                if (startPageIndex < 0) {
+                    endPageIndex -= startPageIndex;
+                    startPageIndex = 0;
+                }
+
+                if (endPageIndex >= totalPages) {
+                    startPageIndex -= endPageIndex - totalPages + 1;
+                    endPageIndex = totalPages - 1;
+                }
+
+                if (startPageIndex < 0) {
+                    startPageIndex = 0;
+                }
+
+                // Generate pagination links with ellipsis
+                var paginationHtml = '';
+                if (startPageIndex > 0) {
+                    paginationHtml += '<a href="#" data-index="0">1</a>';
+                    if (startPageIndex > 1) {
+                        paginationHtml += '<span>...</span>';
+                    }
+                }
+
+                for (var i = startPageIndex; i <= endPageIndex; i++) {
+                    if (i === pageIndex) {
+                        paginationHtml += '<a href="#" data-index="' + i + '" class="active">' + (i + 1) + '</a>';
+                    } else {
+                        paginationHtml += '<a href="#" data-index="' + i + '">' + (i + 1) + '</a>';
+                    }
+                }
+
+                if (endPageIndex < totalPages - 1) {
+                    if (endPageIndex < totalPages - 2) {
+                        paginationHtml += '<span>...</span>';
+                    }
+                    paginationHtml += '<a href="#" data-index="' + (totalPages - 1) + '">' + totalPages + '</a>';
+                }
+                $("#vendorPagination").html(paginationHtml);
+
+                // Call the showTableRows() function to show/hide rows based on pagination
+                showTableRows(pageIndex);
+            }
+
+            function showTableRows(pageIndex) {
+                var startIndex = pageIndex * itemsOnPage;
+                var endIndex = (pageIndex + 1) * itemsOnPage;
+
+                $("tbody tr").hide();
+                for (var j = startIndex; j < endIndex && j < itemCount; j++) {
+                    var i = j % itemCount;
+                    $("tbody tr:eq(" + i + ")").show();
+                }
+            }
+
+            $(document).on('click', '.pagination-container a', function () {
+                var pageIndex = parseInt($(this).data('index'));
+                handleSmartPagination(pageIndex);
+            });
+
             $('.delete-btn').click(function () {
                 var productID = $(this).data('productid');
                 $('#deleteProductId').val(productID);
                 $('#productId').text(productID);
                 $('#productName').text($(this).closest('tr').find('td:nth-child(2)').text());
-                //$('#myModal').modal('show');
             });
+
+            handleSmartPagination(0);
         });
     </script>
+
+
+
 
 </body>
 </html>
